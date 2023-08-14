@@ -2,12 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CreateBookRequest;
 use App\Models\Book;
+use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
 
 class BookController extends Controller
 {
    public function index(){
+
        $books = Book::orderBy('id','desc')->paginate(10);
        $page = "Books";
        return view('books', [
@@ -16,16 +21,22 @@ class BookController extends Controller
 ]);
    }
    public function create(){
+    $categories=Category::all();
     $page = "create book";
-    return view('create-book', ['page' => $page]);
+    return view('create-book', ['page' => $page,'categories'=>$categories]);
    }
 
-   public function store(Request $request){
+   public function store(CreateBookRequest $request){
+    $fileName= Book::uploadFile($request,$request->pic);
+   
     Book::create(
         [
             "title" =>$request->title,
             "price"=>$request->price,
             "description"=>$request->description,
+            "bok_id"=>$request->category,
+            "pic"=>$fileName
+          
             
           
         ] );

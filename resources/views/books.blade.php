@@ -9,11 +9,11 @@
 <tr>
   <th scope="col">#</th>
   <th scope="col">Title</th>
+  <th scope="col">Image</th>
+  <th scope="col">Category</th>
   <th scope="col">price</th>
   <th scope="col">View</th>
   <th scope="col">Edit</th>
- 
-  
   <th scope="col">Delete</th>
  
 </tr>
@@ -21,11 +21,16 @@
 
 
 <tbody>
-            @foreach ($books as $index => $book)
+   
+            @foreach ($books as  $book)
+        
                 <tr>
-                    <th scope="row">{{ $book["id"] }}</th>
-                    <td>{{ $book['title'] }}</td>
-                    <td>{{ $book['price'] }}</td>
+                    <th scope="row">{{ $book->id }}</th>
+                    <td>{{ $book->title }}</td>
+                    <td><img width="60px" height="60px" src="{{ asset('storage/books/') ."/". $book->pic}}" alt=""></td>
+                    <td>{{ $book->price}}</td>
+                    <td>{{ $book->category->name??'_'}}</td>
+
                    
                         <td><a href="{{ route('books.show',$book->id)}}">View</a></td>
                         <td><a href="{{ route('books.edit', $book->id) }}" class="btn btn-success">Edit</a></td>
